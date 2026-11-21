@@ -5,8 +5,8 @@
 
 ## Стек технологий (планируемый)
 *   Frontend: HTML5, CSS3, Vanilla JS
-*   Backend: Python (Flask) / Node.js (Express) *(уточним позже)*
-*   База данных: SQLite / PostgreSQL
+*   Backend: Node.js (Express)
+*   База данных: SQLite 
 
 ## Структура базы данных (Модуль 1)
 *   `users` — пользователи (клиенты и админы).
