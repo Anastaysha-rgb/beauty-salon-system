@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Салон красоты - Главная</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo" style="text-decoration:none;">BeautySalon</a>
+        <nav class="nav">
+            <a href="login.html" class="btn btn-outline">Вход</a>
+            <a href="register.html" class="btn btn-primary">Регистрация</a>
+        </nav>
+    </header>
+
+    <!-- Блок Слайдера -->
+    <section class="slider-container">
+        <div class="slider">
+            <!-- Убедитесь, что картинки лежат в папке img и называются так же -->
+            <div class="slide active"><img src="img/slide1.jpg" alt="Стрижка"></div>
+            <div class="slide"><img src="img/slide2.jpg" alt="Маникюр"></div>
+            <div class="slide"><img src="img/slide3.jpg" alt="Окрашивание"></div>
+            <div class="slide"><img src="img/slide4.jpg" alt="Уход за лицом"></div>
+        </div>
+        <button class="slider-btn prev" id="prevBtn">&#10094;</button>
+        <button class="slider-btn next" id="nextBtn">&#10095;</button>
+    </section>
+
+    <main class="hero">
+        <h1>Идеальный образ начинается здесь</h1>
+        <p>Запишитесь онлайн на любую услугу за пару кликов.</p>
+        <a href="register.html" class="btn btn-primary btn-large">Записаться сейчас</a>
+    </main>
+
+    <script src="js/slider.js"></script>
+    <script src="js/validation.js"></script>
+</body>
+</html>

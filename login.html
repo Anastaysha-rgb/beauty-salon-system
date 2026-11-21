@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - Салон красоты</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .form-container {
+            max-width: 400px; margin: 80px auto; background: #fff;
+            padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+        .error-msg { color: red; font-size: 0.8rem; display: none; margin-top: 3px; }
+        .form-group.invalid input { border-color: red; }
+        .form-group.invalid .error-msg { display: block; }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo" style="text-decoration:none;">BeautySalon</a>
+        <nav class="nav">
+            <a href="register.html" class="btn btn-outline">Регистрация</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2 style="text-align:center; margin-bottom: 20px;">Вход в аккаунт</h2>
+            
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="login">Логин *</label>
+                    <input type="text" id="login" name="login" placeholder="Введите логин">
+                    <div class="error-msg">Введите логин</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль *</label>
+                    <input type="password" id="password" name="password" placeholder="Введите пароль">
+                    <div class="error-msg">Введите пароль</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large" style="width: 100%; margin-top: 10px;">Войти</button>
+            </form>
+        </div>
+    </main>
+
+<script>
+        function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icon = type === 'success' ? '✅' : '❌';
+    
+    toast.innerHTML = `
+        <span class="toast-icon">${icon}</span>
+        <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+
+    setTimeout(() => { toast.classList.add('show'); }, 100);
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300); 
+    }, 3000);
+}
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault(); // Отменяем перезагрузку страницы
+    
+    const loginInput = document.getElementById('login');
+    const passwordInput = document.getElementById('password');
+    
+    let isValid = true;
+    
+    // Очистка старых ошибок
+    document.querySelectorAll('.form-group').forEach(el => el.classList.remove('invalid'));
+    
+    // Проверка на пустоту
+    if (loginInput.value.trim() === '') {
+        loginInput.parentElement.classList.add('invalid');
+        isValid = false;
+    }
+    if (passwordInput.value.trim() === '') {
+        passwordInput.parentElement.classList.add('invalid');
+        isValid = false;
+    }
+    
+    if (isValid) {
+        const loginValue = loginInput.value.trim().toLowerCase();
+        const passwordValue = passwordInput.value.trim();
+
+        // 1. Если зашел Админ
+        if (loginValue === 'admin' && passwordValue === 'admin') {
+            localStorage.setItem('currentUser', JSON.stringify({ id: 0, fio: 'Администратор', role: 'admin' }));
+            window.location.href = 'admin.html';
+            return; 
+        }
+
+        // 2. Если зашел обычный пользователь (ищем в массиве users)
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === loginValue && u.password === passwordValue);
+
+        if (user) {
+            localStorage.setItem('currentUser', JSON.stringify({ id: user.id, fio: user.fio, role: 'user' }));
+            window.location.href = 'dashboard.html';
+        } else {
+            // Ошибка: неверный логин или пароль
+           showToast('Неверный логин или пароль!');
+            // Можно добавить красную рамку к полям, если нужно
+        }
+    }
+});
+    </script>
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="js/validation.js"></script>
+</body>
+</html>
